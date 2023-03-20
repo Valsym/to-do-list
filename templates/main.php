@@ -50,7 +50,7 @@
                     <td class="task__select">
                         <label class="checkbox task__checkbox">
                             <input class="checkbox__input visually-hidden task__checkbox" type="checkbox">
-                            <span class="checkbox__text"><?=$task['task'] ?></span>
+                            <span class="checkbox__text"><?=htmlspecialchars($task['task']) ?></span>
                         </label>
                     </td>
 
