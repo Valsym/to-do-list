@@ -6,7 +6,7 @@
             <?php foreach($projects as $project): ?>
                 <li class="main-navigation__list-item">
                     <a class="main-navigation__list-item-link" href="#"><?=$project ?></a>
-                    <span class="main-navigation__list-item-count"><?=listItemCount($tasks, $project) ?></span>
+                    <span class="main-navigation__list-item-count"><?=list_item_сount($tasks, $project) ?></span>
                 </li>
             <?php endforeach; ?>
         </ul>
@@ -46,7 +46,8 @@
             if ($show_complete_tasks === 0 && $task['completed'] === true)
                 continue;
             else { ?>
-                <tr class="tasks__item task<?php if($task['completed'] > 0) { ?> task--completed<?php }; ?>">
+                <tr class="tasks__item task<?php if($task['completed'] > 0) { ?> task--completed<?php }; ?>
+                    <?php if(get_time_left($task['deadline'])):?> task--important<?php endif ?>">
                     <td class="task__select">
                         <label class="checkbox task__checkbox">
                             <input class="checkbox__input visually-hidden task__checkbox" type="checkbox">

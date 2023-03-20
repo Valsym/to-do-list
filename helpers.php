@@ -142,3 +142,34 @@ function include_template($name, array $data = []) {
 
     return $result;
 }
+
+/**
+ * Рассчитывает оставшееся время до определенной даты
+ * @param string $deadline дата окончания выполнения задачи
+ * @return true если осталось меньше 24 часов или false  в противном случае
+ */
+function get_time_left($deadline) {
+    $endTime = strtotime($deadline);
+    $nowTime = time();
+
+    $diff = floor(($endTime - $nowTime) / 3600);
+
+    //file_put_contents("log.txt", "\ndiff=$diff", FILE_APPEND); // отладочная печать
+
+    return $diff < 24;
+}
+
+/**
+ * Рассчитывает кол-во задач в заданной категории проекта
+ * @param array $tasks массив задач
+ * @param string $project категория проекта
+ * @return $sum кол-во задач в заданной категории проекта
+ */
+function list_item_сount(array $tasks, $project) {
+    $sum = 0;
+    foreach($tasks as $task) {
+        if ($task['category'] === $project)
+            $sum++;
+    }
+    return $sum;
+}

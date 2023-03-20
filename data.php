@@ -4,22 +4,22 @@ $show_complete_tasks = rand(0, 1);
 $projects = ['Входящие', 'Учеба', 'Работа', 'Домашние дела', 'Авто'];
 $tasks = [
     ['task' => 'Собеседование в IT компании',
-    'deadline' => '01.12.2019',
+    'deadline' => '20.03.2023',
     'category' => 'Работа',
     'completed' => 'false'
     ],
     ['task' => 'Выполнить тестовое задание',
-    'deadline' => '25.12.2019',
+    'deadline' => '25.12.2023',
     'category' => 'Работа',
     'completed' => false
     ],
     ['task' => 'Сделать задание первого раздела',
-    'deadline' => '21.12.2019',
+    'deadline' => '21.12.2023',
     'category' => 'Учеба',
     'completed' => true
     ],
     ['task' => 'Встреча с другом',
-    'deadline' => '22.12.2019',
+    'deadline' => '22.12.2023',
     'category' => 'Входящие',
     'completed' => false
     ],
