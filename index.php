@@ -9,12 +9,12 @@ $content = include_template("main.php", [
         'show_complete_tasks' => $show_complete_tasks
 ]);
 
-layout_content  = include_template("layout.php", [
+$layout_content  = include_template("layout.php", [
     'content' => $content,
     'user' => 'Константин',
     'title' => 'Дела в порядке'
 ]);
 
-print(layout_content );
+print($layout_content );
 
 ?>
