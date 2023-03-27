@@ -5,7 +5,7 @@
         <ul class="main-navigation__list">
             <?php foreach($projects as $project): ?>
                 <li class="main-navigation__list-item">
-                    <a class="main-navigation__list-item-link" href="#"><?=$project ?></a>
+                    <a class="main-navigation__list-item-link" href="#"><?=$project['project_name'] ?></a>
                     <span class="main-navigation__list-item-count"><?=list_item_сount($tasks, $project) ?></span>
                 </li>
             <?php endforeach; ?>
@@ -43,15 +43,15 @@
 
     <table class="tasks">
         <?php foreach($tasks as $task) {
-            if ($show_complete_tasks === 0 && $task['completed'] === true)
+            if ($show_complete_tasks === 0 && $task['task_status'] === true)
                 continue;
             else { ?>
-                <tr class="tasks__item task<?php if($task['completed'] > 0) { ?> task--completed<?php }; ?>
+                <tr class="tasks__item task<?php if($task['task_status'] > 0) { ?> task--completed<?php }; ?>
                     <?php if(get_time_left($task['deadline'])):?> task--important<?php endif ?>">
                     <td class="task__select">
                         <label class="checkbox task__checkbox">
                             <input class="checkbox__input visually-hidden task__checkbox" type="checkbox">
-                            <span class="checkbox__text"><?=htmlspecialchars($task['task']) ?></span>
+                            <span class="checkbox__text"><?=htmlspecialchars($task['task_name']) ?></span>
                         </label>
                     </td>
 

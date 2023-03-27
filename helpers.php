@@ -168,7 +168,7 @@ function get_time_left($deadline) {
 function list_item_сount(array $tasks, $project) {
     $sum = 0;
     foreach($tasks as $task) {
-        if ($task['category'] === $project)
+        if ($task['project_id'] === $project['id'])
             $sum++;
     }
     return $sum;
