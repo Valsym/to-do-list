@@ -4,9 +4,10 @@
     <nav class="main-navigation">
         <ul class="main-navigation__list">
             <?php foreach($projects as $project): ?>
-                <li class="main-navigation__list-item">
-                    <a class="main-navigation__list-item-link" href="#"><?=$project['project_name'] ?></a>
-                    <span class="main-navigation__list-item-count"><?=list_item_сount($tasks, $project) ?></span>
+                <li class="main-navigation__list-item <?php if($project_active === $project['id']):
+                    ?>main-navigation__list-item--active<?php endif ?>">
+                    <a class="main-navigation__list-item-link" href="<?=get_project_id_url($project['id']) ?>"><?=$project['project_name'] ?></a>
+                    <span class="main-navigation__list-item-count"><?=list_item_сount($all_tasks, $project) ?></span>
                 </li>
             <?php endforeach; ?>
         </ul>

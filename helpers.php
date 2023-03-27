@@ -173,3 +173,16 @@ function list_item_сount(array $tasks, $project) {
     }
     return $sum;
 }
+
+function get_project_id_url($project_id) {
+    $params = $_GET;
+    $params['project_id'] = $params['project_id'] ?? $project_id;
+
+    $scriptname = pathinfo(__FILE__, PATHINFO_BASENAME);
+    $query = http_build_query($params);
+    $url = "/" . $scriptname . "?" . $query;
+    $url = "/index.php?" . $query;
+    $url = "/index.php?project_id=" . $project_id;
+
+    return $url;
+}

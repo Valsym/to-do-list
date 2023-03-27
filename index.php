@@ -8,7 +8,7 @@ if ($con == false) {
 else {
     //print("Соединение установлено\n");
 }
-$user_id = 2;
+$user_id = 1;
 
 $sql = 'select p.id, p.project_name, u.user_name as user_name from projects p ' .
     'join users u on u.id = user_id ' .
@@ -31,24 +31,70 @@ if ($result) {
 //print($projects[0]['user_name']);
 //exit;
 
+$params = $_GET;
+$project_id = $params['project_id'] ?? NULL;
+//print_r($project_id);
+//exit;
+/*
+//$params['project_id'] = $params['project_id'] ?? $project_id;
+$scriptname = pathinfo(__FILE__, PATHINFO_BASENAME);
+$query = http_build_query($params);
+$url = "/" . $scriptname . "?" . $query;
+*/
 $sql = 'select task_status, task_name, deadline, p.project_name as category, project_id from tasks t ' .
     'join projects p on p.id = project_id ' .
     "where t.user_id = $user_id";
 $result = mysqli_query($con, $sql);
 if ($result) {
-    $tasks = mysqli_fetch_all($result, MYSQLI_ASSOC);
-    //print_r($tasks);
+    $all_tasks = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+    //print_r($all_tasks);
 } else {
     $error = mysqli_error($con);
     print("Ошибка2: $error");
 }
+
+$tasks = NULL;
+$project_active = NULL;
+if ($project_id) {
+    $project_find = false;
+    foreach ($projects as $project) {
+        if (in_array($project_id, $project)) {
+            $sql .= " and p.id = $project_id";
+            $project_find = true;
+            $result = mysqli_query($con, $sql);
+            if ($result) {
+                $tasks = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+                //print_r($tasks);
+            } else {
+                $error = mysqli_error($con);
+                print("Ошибка3: $error");
+            }
+            break;
+        }
+    }
+    if (!$project_find) {
+        header("Location: /404.php");
+    } else {
+        $project_active = $project_id;
+    }
+}
+//print("\n".$sql."\n");
+
 //print($projects[0]['user_name']);
 //exit;
 
 $show_complete_tasks = rand(0, 1);
+
+if ($tasks === NULL) {
+    $tasks = $all_tasks;
+}
 $page_content = include_template("main.php", [
         'projects' => $projects,
         'tasks' => $tasks,
+        'all_tasks' => $all_tasks,
+        'project_active' => $project_active,
         'show_complete_tasks' => $show_complete_tasks
 ]);
 
