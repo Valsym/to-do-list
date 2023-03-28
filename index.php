@@ -31,8 +31,10 @@ if ($result) {
 //print($projects[0]['user_name']);
 //exit;
 
-$params = $_GET;
-$project_id = $params['project_id'] ?? NULL;
+//$params = $_GET;
+//$project_id = $params['project_id'] ?? NULL;
+$project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_NUMBER_INT);
+
 //print_r($project_id);
 //exit;
 /*
@@ -46,7 +48,7 @@ $sql = 'select task_status, task_name, deadline, p.project_name as category, pro
     "where t.user_id = $user_id";
 $result = mysqli_query($con, $sql);
 if ($result) {
-    $all_tasks = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    $tasks = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
     //print_r($all_tasks);
 } else {
@@ -54,15 +56,21 @@ if ($result) {
     print("Ошибка2: $error");
 }
 
-$tasks = NULL;
+$page_404 = include_template("404.php", [
+    'projects' => $projects,
+    'tasks' => $tasks,
+    'user' => $projects[0]['user_name'],
+]);
+
+//$tasks = NULL;
 $project_active = NULL;
 if ($project_id) {
     $project_find = false;
     foreach ($projects as $project) {
         if (in_array($project_id, $project)) {
-            $sql .= " and p.id = $project_id";
+            //$sql .= " and p.id = $project_id";
             $project_find = true;
-            $result = mysqli_query($con, $sql);
+            /*$result = mysqli_query($con, $sql);
             if ($result) {
                 $tasks = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
@@ -70,12 +78,14 @@ if ($project_id) {
             } else {
                 $error = mysqli_error($con);
                 print("Ошибка3: $error");
-            }
+            }*/
             break;
         }
     }
     if (!$project_find) {
-        header("Location: /404.php");
+        //header("Location: /404.php");
+        print($page_404);
+        die;
     } else {
         $project_active = $project_id;
     }
@@ -86,14 +96,14 @@ if ($project_id) {
 //exit;
 
 $show_complete_tasks = rand(0, 1);
-
+/*
 if ($tasks === NULL) {
     $tasks = $all_tasks;
-}
+}*/
 $page_content = include_template("main.php", [
         'projects' => $projects,
         'tasks' => $tasks,
-        'all_tasks' => $all_tasks,
+        //'all_tasks' => $all_tasks,
         'project_active' => $project_active,
         'show_complete_tasks' => $show_complete_tasks
 ]);

@@ -6,8 +6,8 @@
             <?php foreach($projects as $project): ?>
                 <li class="main-navigation__list-item <?php if($project_active === $project['id']):
                     ?>main-navigation__list-item--active<?php endif ?>">
-                    <a class="main-navigation__list-item-link" href="<?=get_project_id_url($project['id']) ?>"><?=$project['project_name'] ?></a>
-                    <span class="main-navigation__list-item-count"><?=list_item_сount($all_tasks, $project) ?></span>
+                    <a class="main-navigation__list-item-link" href="/index.php?project_id=<?=$project['id'] ?>"><?=$project['project_name'] ?></a>
+                    <span class="main-navigation__list-item-count"><?=list_item_сount($tasks, $project) ?></span>
                 </li>
             <?php endforeach; ?>
         </ul>
@@ -44,7 +44,8 @@
 
     <table class="tasks">
         <?php foreach($tasks as $task) {
-            if ($show_complete_tasks === 0 && $task['task_status'] === true)
+            if ($show_complete_tasks === 0 && $task['task_status'] === true ||
+                ($project_active && $project_active != $task['project_id']))
                 continue;
             else { ?>
                 <tr class="tasks__item task<?php if($task['task_status'] > 0) { ?> task--completed<?php }; ?>

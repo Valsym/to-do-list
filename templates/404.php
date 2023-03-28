@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Ошибка 404</title>
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/flatpickr.min.css">
+    <link rel="stylesheet" href="../css/normalize.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/flatpickr.min.css">
 </head>
 
 <body>
@@ -16,7 +16,7 @@
     <div class="container container--with-sidebar">
         <header class="main-header">
             <a href="/">
-                <img src="img/logo.png" width="153" height="42" alt="Логотип Дела в порядке">
+                <img src="../img/logo.png" width="153" height="42" alt="Логотип Дела в порядке">
             </a>
 
             <div class="main-header__side">
@@ -24,7 +24,7 @@
 
                 <div class="main-header__side-item user-menu">
                     <div class="user-menu__data">
-                        <p>User?</p>
+                        <p><?=$user ?></p>
 
                         <a href="#">Выйти</a>
                     </div>
@@ -32,20 +32,22 @@
             </div>
         </header>
 
-        <section class="content__side">
-            <h2 class="content__side-heading">Проекты</h2>
-
-            <nav class="main-navigation">
-                <ul class="main-navigation__list">
-                        <li class="main-navigation__list-item">
-                            <a class="main-navigation__list-item-link" href="#"></a>
-                            <span class="main-navigation__list-item-count"></span>
-                        </li>
-                </ul>
-            </nav>
-        </section>
-
         <div class="content">
+            <section class="content__side">
+                <h2 class="content__side-heading">Проекты</h2>
+
+                <nav class="main-navigation">
+                    <ul class="main-navigation__list">
+                        <?php foreach($projects as $project): ?>
+                            <li class="main-navigation__list-item">
+                                <a class="main-navigation__list-item-link" href="/index.php?project_id=<?=$project['id'] //get_project_id_url($project['id']) ?>"><?=$project['project_name'] ?></a>
+                                <span class="main-navigation__list-item-count"><?=list_item_сount($tasks, $project) ?></span>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </nav>
+            </section>
+
             <main class="content__main">
                 <h2 class="content__main-heading">Ошибка 404: такой сраницы не существует</h2>
             </main>
@@ -106,13 +108,13 @@
             <span class="visually-hidden">Разработано:</span>
 
             <a href="https://htmlacademy.ru/intensive/php">
-                <img src="img/htmlacademy.svg" alt="HTML Academy" width="118" height="40">
+                <img src="../img/htmlacademy.svg" alt="HTML Academy" width="118" height="40">
             </a>
         </div>
     </div>
 </footer>
 
-<script src="flatpickr.js"></script>
-<script src="script.js"></script>
+<script src="../flatpickr.js"></script>
+<script src="../script.js"></script>
 </body>
 </html>

@@ -173,7 +173,7 @@ function list_item_сount(array $tasks, $project) {
     }
     return $sum;
 }
-
+/*
 function get_project_id_url($project_id) {
     $params = $_GET;
     $params['project_id'] = $params['project_id'] ?? $project_id;
@@ -185,4 +185,4 @@ function get_project_id_url($project_id) {
     $url = "/index.php?project_id=" . $project_id;
 
     return $url;
-}
+}*/
