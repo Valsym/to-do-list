@@ -84,8 +84,18 @@ if ($project_id) {
     }
     if (!$project_find) {
         //header("Location: /404.php");
-        print($page_404);
+        $error = "Ошибка 404: проект с таким id=$project_id не существует";
+        $page_content = include_template("error.php", [
+            'error' => $error,
+            'projects' => $projects,
+            'tasks' => $tasks,
+            'user_name' => $projects[0]['user_name'],
+            'title' => 'Ошибка 404: страница не существует'
+        ]);
+        print($page_content);
         die;
+        //print($page_404);
+        //die;
     } else {
         $project_active = $project_id;
     }
@@ -100,17 +110,19 @@ $show_complete_tasks = rand(0, 1);
 if ($tasks === NULL) {
     $tasks = $all_tasks;
 }*/
+//if ($project_find) {
 $page_content = include_template("main.php", [
-        'projects' => $projects,
-        'tasks' => $tasks,
-        //'all_tasks' => $all_tasks,
-        'project_active' => $project_active,
-        'show_complete_tasks' => $show_complete_tasks
+    'projects' => $projects,
+    'tasks' => $tasks,
+    //'all_tasks' => $all_tasks,
+    'project_active' => $project_active,
+    'show_complete_tasks' => $show_complete_tasks
 ]);
+//}
 
 $layout_content  = include_template("layout.php", [
     'content' => $page_content,
-    'user' => $projects[0]['user_name'],
+    'user_name' => $projects[0]['user_name'],
     'title' => 'Дела в порядке'
 ]);
 

@@ -3,14 +3,14 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Ошибка 404</title>
+    <title><?=$title ?></title>
     <link rel="stylesheet" href="../css/normalize.css">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/flatpickr.min.css">
 </head>
 
 <body>
-<h1 class="visually-hidden">Ошибка 404</h1>
+<h1 class="visually-hidden"><?=$title ?></h1>
 
 <div class="page-wrapper">
     <div class="container container--with-sidebar">
@@ -24,7 +24,7 @@
 
                 <div class="main-header__side-item user-menu">
                     <div class="user-menu__data">
-                        <p><?=$user ?></p>
+                        <p><?=$user_name ?></p>
 
                         <a href="#">Выйти</a>
                     </div>
@@ -49,7 +49,7 @@
             </section>
 
             <main class="content__main">
-                <h2 class="content__main-heading">Ошибка 404: такой сраницы не существует</h2>
+                <h2 class="content__main-heading"><?=$error ?></h2>
             </main>
         </div>
     </div>

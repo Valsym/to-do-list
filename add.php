@@ -70,6 +70,8 @@ $page_404 = include_template("404.php", [
     'tasks' => $tasks,
     'user' => $projects[0]['user_name'],
 ]);
+
+$title = '';
 /*
 $page_content = include_template("main-add.php", [
     'projects' => $projects,
@@ -136,7 +138,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $ext = 'png';
         }
 
-        if ($ext) {
+        if ($file_size > 200000) {
+            $errors['file_size'] = "Максимальный размер файла: 200Кб";
+        }
+
+        if ($ext && $file_size <= 200000) {
             $file_name = uniqid() . ".$ext";
             move_uploaded_file($tmp_name, $file_path . $file_name);
             $fields['path'] = $file_name;//"uploads/" . $file_name;
@@ -144,9 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $errors['file_ext'] = "Допустимые форматы файла: gif, ipeg, png";
         }
 
-        if ($file_size > 200000) {
-            $errors['file_size'] = "Максимальный размер файла: 200Кб";
-        }
+
 
     }
 
@@ -178,17 +182,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             header("Location: /index.php");
         } else {
             $error = mysqli_error($con);
+            $title = "Ошибка БД: $error";
+            $page_content = include_template("error.php", [
+                'error' => $error,
+                'projects' => $projects,
+                'tasks' => $tasks,
+                'user_name' => $projects[0]['user_name'],
+                'title' => $title
+                ]);
         }
 
     }
 
 }
 
+if (!$title)
+    $title = 'Добавить задачу';
+
 $layout_content  = include_template("layout-add.php", [
     'content' => $page_content,
     //'projects' => $projects,
     'user_name' => $projects[0]['user_name'],
-    'title' => 'Добавить задачу'
+    'title' => $title
 ]);
 
 print($layout_content );
