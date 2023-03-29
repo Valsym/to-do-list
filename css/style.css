@@ -723,6 +723,10 @@ a:focus {
   border-color: #f84646;
 }
 
+.form__item--invalid {
+  border-color: #f84646;
+}
+
 .form__input--select {
   background: #ffffff url("../img/dropdown.svg") right 20px top 50% no-repeat;
 }

@@ -43,7 +43,7 @@ $scriptname = pathinfo(__FILE__, PATHINFO_BASENAME);
 $query = http_build_query($params);
 $url = "/" . $scriptname . "?" . $query;
 */
-$sql = 'select task_status, task_name, deadline, p.project_name as category, project_id from tasks t ' .
+$sql = 'select task_status, task_name, task_file, deadline, p.project_name as category, project_id from tasks t ' .
     'join projects p on p.id = project_id ' .
     "where t.user_id = $user_id";
 $result = mysqli_query($con, $sql);

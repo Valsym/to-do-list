@@ -150,13 +150,31 @@ function include_template($name, array $data = []) {
  */
 function get_time_left($deadline) {
     $endTime = strtotime($deadline);
-    $nowTime = time();
+    $nowTime = strtotime("today");//time();
 
     $diff = floor(($endTime - $nowTime) / 3600);
 
     //file_put_contents("log.txt", "\ndiff=$diff", FILE_APPEND); // отладочная печать
 
-    return $diff < 24;
+    return $diff;
+}
+
+/**
+ * Проверка даты
+ * Содержимое поля «дата завершения» должно быть датой в формате «ГГГГ-ММ-ДД»;
+ * Эта дата должна быть больше или равна текущей.
+ * @param $date
+ * @return string
+ */
+
+function validate_data($date) {
+    if (!is_date_valid($date)) {
+        return "Дата должна быть в формате «ГГГГ-ММ-ДД»";
+    };
+
+    if (get_time_left($date) < 0) {
+        return "Дата должна быть больше или равна текущей";
+    };
 }
 
 /**
@@ -186,3 +204,47 @@ function get_project_id_url($project_id) {
 
     return $url;
 }*/
+
+
+/**
+ * Проверка заполненности
+ * @param string $name имя поля для проверки
+ * @return строка ошибки
+ */
+function validate_filled($name) {
+    if (empty($_POST[$name])) {
+        return "Это поле должно быть заполнено";
+    }
+}
+
+/**
+ * Проверка существования проекта
+ * @param string $name имя поля для проверки
+ * @return строка ошибки
+ */
+function validate_project_exist($project_name, $projects) {
+    $project_find = false;
+    foreach ($projects as $project) {
+        if (in_array($project_name, $project)) {
+            $project_find = true;
+            break;
+        }
+    }
+    if (!$project_find) {
+        return "Указан несуществующий проект";
+    }
+}
+
+/**
+ * Проверка длины
+ * @param string $name имя поля для проверки
+ * @return строка ошибки
+ */
+function is_correct_length($name, $min, $max) {
+    $len = strlen($_POST[$name]);
+
+    if ($len < $min or $len > $max) {
+        return "Значение должно быть от $min до $max символов";
+    }
+}
+

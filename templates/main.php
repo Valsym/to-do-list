@@ -49,7 +49,7 @@
                 continue;
             else { ?>
                 <tr class="tasks__item task<?php if($task['task_status'] > 0) { ?> task--completed<?php }; ?>
-                    <?php if(get_time_left($task['deadline'])):?> task--important<?php endif ?>">
+                    <?php if(get_time_left($task['deadline']) < 24):?> task--important<?php endif ?>">
                     <td class="task__select">
                         <label class="checkbox task__checkbox">
                             <input class="checkbox__input visually-hidden task__checkbox" type="checkbox">
@@ -57,7 +57,11 @@
                         </label>
                     </td>
 
-                    <td class="task__file"></td>
+                    <td class="task__file">
+                        <?php if($task['task_file']): ?>
+                            <a href="/uploads/<?=$task['task_file'] ?>"><?=$task['task_file'] ?></a>
+                        <?php endif; ?>
+                    </td>
 
                     <td class="task__date"><?=$task['deadline'] ?></td>
 
