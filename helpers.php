@@ -223,16 +223,12 @@ function validate_filled($name) {
  * @return строка ошибки
  */
 function validate_project_exist($project_name, $projects) {
-    $project_find = false;
     foreach ($projects as $project) {
         if (in_array($project_name, $project)) {
-            $project_find = true;
-            break;
+            return NULL;
         }
     }
-    if (!$project_find) {
-        return "Указан несуществующий проект";
-    }
+    return "Указан несуществующий проект";
 }
 
 /**
@@ -248,3 +244,6 @@ function is_correct_length($name, $min, $max) {
     }
 }
 
+function getPostVal($name) {
+    return filter_input(INPUT_POST, $name);
+}

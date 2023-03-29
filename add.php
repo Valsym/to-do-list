@@ -8,7 +8,7 @@ if ($con == false) {
 else {
     //print("Соединение установлено\n");
 }
-$user_id = 1;
+$user_id = 2;
 
 $sql = 'select p.id, p.project_name, u.user_name as user_name from projects p ' .
     'join users u on u.id = user_id ' .
@@ -50,18 +50,18 @@ if ($result) {
     $error = mysqli_error($con);
     print("Ошибка2: $error");
 }
-
+/*
 $fields = filter_input_array(INPUT_POST, [
     'name' => FILTER_DEFAULT,
     'project' => FILTER_DEFAULT,
     'date' => FILTER_DEFAULT,
     'file' => FILTER_DEFAULT,
 ], true);
-
+*/
 $page_content = include_template("main-add.php", [
     'projects' => $projects,
     'tasks' => $tasks,
-    'field' => $fields,
+    //'field' => $fields,
     'errors' => []
 ]);
 
