@@ -1,44 +1,75 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html lang="ru">
 
 <head>
     <meta charset="UTF-8">
-    <title><?=$title ?></title>
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/flatpickr.min.css">
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="../css/normalize.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 
-<body <?php if(!isset($user_name)): ?> class="body-background"<?php endif ?>>
-<h1 class="visually-hidden"><?=$title ?></h1>
+<body>
+<h1 class="visually-hidden">Дела в порядке</h1>
 
 <div class="page-wrapper">
-    <div class="container <?php if(isset($user_name)): ?>container--with-sidebar<?php endif ?>">
+    <div class="container container--with-sidebar">
         <header class="main-header">
-            <a href="/">
-                <img src="img/logo.png" width="153" height="42" alt="Логотип Дела в порядке">
+            <a href="#">
+                <img src="../img/logo.png" width="153" height="42" alt="Логитип Дела в порядке">
             </a>
 
             <div class="main-header__side">
-                <?php if(isset($user_name)): ?>
-                <a class="main-header__side-item button button--plus open-modal" href="/add.php">Добавить задачу</a>
-                <?php else: ?>
-                <a class="main-header__side-item button button--plus open-modal" href="/enter.php">Войти</a>
-                <?php endif ?>
-                <div class="main-header__side-item user-menu">
-                    <div class="user-menu__data">
-                        <?php if(isset($user_name)): ?>
-                        <p><?=$user_name ?? ""?></p>
-
-                        <a href="#">Выйти</a>
-                        <?php endif ?>
-                    </div>
-                </div>
+                <a class="main-header__side-item button button--transparent" href="form-authorization.html">Войти</a>
             </div>
         </header>
 
-        <div class="content">
-            <?=$content ?>
+        <div class="content">-->
+            <section class="content__side">
+                <p class="content__side-info">Если у вас уже есть аккаунт, авторизуйтесь на сайте</p>
+
+                <a class="button button--transparent content__side-button" href="/enter.php">Войти</a>
+            </section>
+
+            <main class="content__main">
+                <h2 class="content__main-heading">Регистрация аккаунта</h2>
+
+                <form class="form" action="register.php" method="post" autocomplete="off">
+                    <div class="form__row">
+                        <label class="form__label" for="email">E-mail <sup>*</sup></label>
+                        <?php $classname = isset($errors['email']) ? "form__input--error" : ""; ?>
+                        <input class="form__input <?=$classname ?>" type="text" name="email" id="email"
+                               value="<?=getPostVal('email') ?>" placeholder="Введите e-mail">
+                        <span class="form__message"><?=$errors['email'] ?? "" ?></span>
+                        <!--<p class="form__message">E-mail введён некорректно</p>-->
+                    </div>
+
+                    <div class="form__row">
+                        <label class="form__label" for="password">Пароль <sup>*</sup></label>
+                        <?php $classname = isset($errors['password']) ? "form__input--error" : ""; ?>
+                        <input class="form__input <?=$classname ?>" type="password" name="password" id="password"
+                               value="<?=getPostVal('password') ?>" placeholder="Введите пароль">
+                        <span class="form__message"><?=$errors['password'] ?? "" ?></span>
+                    </div>
+
+                    <div class="form__row">
+                        <label class="form__label" for="name">Имя <sup>*</sup></label>
+                        <?php $classname = isset($errors['name']) ? "form__input--error" : ""; ?>
+                        <input class="form__input <?=$classname ?>" type="text" name="name" id="name"
+                               value="<?=getPostVal('name') ?>" placeholder="Введите имя">
+                        <span class="form__message"><?=$errors['name'] ?? "" ?></span>
+                    </div>
+
+                    <div class="form__row form__row--controls">
+                        <?php if(count($errors)): ?>
+                        <p class="error-message">Пожалуйста, исправьте ошибки в форме</p>
+                        <?php endif; ?>
+                        <?php $errorDB = $errorDB ?? ""; ?>
+                        <p class="error-message"><?=$errorDB ?></p>
+                        <input class="button" type="submit" name="" value="Зарегистрироваться">
+                    </div>
+                </form>
+            </main>
+<!--
         </div>
     </div>
 </div>
@@ -50,9 +81,7 @@
 
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
-        <?php if(isset($user_name)): ?>
-        <a class="main-footer__button button button--plus" href="/add.php">Добавить задачу</a>
-        <?php endif ?>
+
         <div class="main-footer__social social">
             <span class="visually-hidden">Мы в соцсетях:</span>
             <a class="social__link social__link--facebook" href="#">
@@ -96,13 +125,11 @@
             <span class="visually-hidden">Разработано:</span>
 
             <a href="https://htmlacademy.ru/intensive/php">
-                <img src="img/htmlacademy.svg" alt="HTML Academy" width="118" height="40">
+                <img src="../img/htmlacademy.svg" alt="HTML Academy" width="118" height="40">
             </a>
         </div>
     </div>
 </footer>
-
-<script src="flatpickr.js"></script>
-<script src="script.js"></script>
 </body>
 </html>
+-->

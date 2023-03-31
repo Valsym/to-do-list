@@ -237,8 +237,8 @@ function validate_project_exist($project_name, $projects) {
  * @return строка ошибки
  */
 function is_correct_length($name, $min, $max) {
-    $len = strlen($_POST[$name]);
-
+    //$len = strlen($_POST[$name]);
+    $len = strlen($name);
     if ($len < $min or $len > $max) {
         return "Значение должно быть от $min до $max символов";
     }
@@ -247,3 +247,36 @@ function is_correct_length($name, $min, $max) {
 function getPostVal($name) {
     return filter_input(INPUT_POST, $name);
 }
+
+function validate_email(/*$email*/) {
+    /*print($email);
+    var_dump(filter_var($email, FILTER_VALIDATE_EMAIL));
+    var_dump(filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL));
+    die;*/
+    if (!filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL))
+        return "E-mail введён некорректно";
+}
+
+function validate_name($name, $min, $max) {
+    //$len = strlen($_POST[$name]);
+    $len = mb_strlen($name);
+    //echo "$name, $len";die;
+    if ($len < $min or $len > $max) {
+        return "Имя должно быть от $min до $max символов";
+    }
+}
+
+function check_duplicate($con, $row, $value) {
+    $sql = "select $row from users where $row = ?";
+    $stmt = mysqli_prepare($con, $sql);
+    if ($stmt === false) {
+        $errorMsg = 'check_duplication(): Не удалось инициализировать подготовленное выражение: ' . mysqli_error($con);
+        die($errorMsg);
+    }
+
+    mysqli_stmt_bind_param($stmt, 's', $value);
+    mysqli_stmt_execute($stmt);
+    $res = mysqli_stmt_get_result($stmt);
+    return mysqli_num_rows($res);
+}
+
