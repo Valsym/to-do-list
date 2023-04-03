@@ -8,29 +8,29 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/flatpickr.min.css">
 </head>
-
-<body <?php if(!isset($user_name)): ?> class="body-background"<?php endif ?>>
+<?php $user_name = isset($_SESSION['user']) ? $_SESSION['user']['user_name'] : "";  //echo "<p>user_name=$user_name</p>"; ?>
+<body <?php if(!$user_name): ?> class="body-background" <?php endif ?>>
 <h1 class="visually-hidden"><?=$title ?></h1>
 
 <div class="page-wrapper">
-    <div class="container <?php if(isset($user_name)): ?>container--with-sidebar<?php endif ?>">
+    <div class="container <?php if(($user_name)): ?>container--with-sidebar<?php endif ?>">
         <header class="main-header">
             <a href="/">
                 <img src="img/logo.png" width="153" height="42" alt="Логотип Дела в порядке">
             </a>
 
             <div class="main-header__side">
-                <?php if(isset($user_name)): ?>
+                <?php if(($user_name)): ?>
                 <a class="main-header__side-item button button--plus open-modal" href="/add.php">Добавить задачу</a>
                 <?php else: ?>
-                <a class="main-header__side-item button button--plus open-modal" href="/enter.php">Войти</a>
+                <a class="main-header__side-item button button--plus open-modal" href="/auth.php">Войти</a>
                 <?php endif ?>
                 <div class="main-header__side-item user-menu">
                     <div class="user-menu__data">
-                        <?php if(isset($user_name)): ?>
+                        <?php if(($user_name)): ?>
                         <p><?=$user_name ?? ""?></p>
 
-                        <a href="#">Выйти</a>
+                        <a href="/logout.php">Выйти</a>
                         <?php endif ?>
                     </div>
                 </div>
@@ -50,7 +50,7 @@
 
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
-        <?php if(isset($user_name)): ?>
+        <?php if(($user_name)): ?>
         <a class="main-footer__button button button--plus" href="/add.php">Добавить задачу</a>
         <?php endif ?>
         <div class="main-footer__social social">

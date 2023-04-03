@@ -1,14 +1,24 @@
 <?php
 require_once ("db.php");
 require_once ("helpers.php");
-
+session_start();
 if ($con == false) {
     print("Ошибка подключения: " . mysqli_connect_error());
 }
 else {
     //print("Соединение установлено\n");
 }
-$user_id = 1;
+
+if (isset($_SESSION['user'])) {
+    $user_id = $_SESSION['user']['id'];
+    //print_r($_SESSION['user']);
+
+//echo "redirect2";
+    //exit;
+/*}else {
+    echo "not SESSION";
+    exit;
+}*/
 
 $sql = 'select p.id, p.project_name, u.user_name as user_name from projects p ' .
     'join users u on u.id = user_id ' .
@@ -55,12 +65,12 @@ if ($result) {
     $error = mysqli_error($con);
     print("Ошибка2: $error");
 }
-
+/*
 $page_404 = include_template("404.php", [
     'projects' => $projects,
     'tasks' => $tasks,
     'user' => $projects[0]['user_name'],
-]);
+]);*/
 
 //$tasks = NULL;
 $project_active = NULL;
@@ -111,23 +121,26 @@ if ($tasks === NULL) {
     $tasks = $all_tasks;
 }*/
 //if ($project_find) {
-$page_content = include_template("main.php", [
-    'projects' => $projects,
-    'tasks' => $tasks,
-    //'all_tasks' => $all_tasks,
-    'project_active' => $project_active,
-    'show_complete_tasks' => $show_complete_tasks
-]);
-//}
+//if (isset($_SESSION)) {
+    $page_content = include_template("main.php", [
+        'projects' => $projects,
+        'tasks' => $tasks,
+        //'all_tasks' => $all_tasks,
+        'project_active' => $project_active,
+        'show_complete_tasks' => $show_complete_tasks
+    ]);
+} else {
+    $page_content = include_template("guest.php", []);
+}
 
 $layout_content  = include_template("layout.php", [
     'content' => $page_content,
-    'user_name' => $projects[0]['user_name'],
+    //'user_name' => $projects[0]['user_name'],
     'title' => 'Дела в порядке'
 ]);
 
 print($layout_content );
 
-
+//if (isset($_SESSION)) print_r($_SESSION);
 
 ?>

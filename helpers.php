@@ -266,7 +266,7 @@ function validate_name($name, $min, $max) {
     }
 }
 
-function check_duplicate($con, $row, $value) {
+function check_user($con, $row, $value) {
     $sql = "select $row from users where $row = ?";
     $stmt = mysqli_prepare($con, $sql);
     if ($stmt === false) {
@@ -279,4 +279,22 @@ function check_duplicate($con, $row, $value) {
     $res = mysqli_stmt_get_result($stmt);
     return mysqli_num_rows($res);
 }
+/*
+function check_pass($con, $pass) {
+    $sql = "select password from users where $row = ?";
+    $stmt = mysqli_prepare($con, $sql);
+    if ($stmt === false) {
+        $errorMsg = 'check_pass(): Не удалось инициализировать подготовленное выражение: ' . mysqli_error($con);
+        die($errorMsg);
+    }
 
+    mysqli_stmt_bind_param($stmt, 's', $value);
+    mysqli_stmt_execute($stmt);
+    $res = mysqli_stmt_get_result($stmt);
+    mysqli_fetch_array($res, MYSQLI_ASSOC)
+    if (password_verify('bad-password', $passwordHash)) {
+
+        return mysqli_num_rows($res);
+}
+
+*/

@@ -65,11 +65,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ]);
     } else {
         // проверка на дубли email && name
-        if (check_duplicate($con, 'email', $user['email'])) {
+        if (check_user($con, 'email', $user['email'])) {
             $errors['email'] = 'Пользователь с таким E-mail уже зарегистрирован';
         }
 
-        if (check_duplicate($con, 'user_name', $user['name'])) {
+        if (check_user($con, 'user_name', $user['name'])) {
             $errors['name'] = 'Пользователь с таким именем уже зарегистрирован';
         }
 
