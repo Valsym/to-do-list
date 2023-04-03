@@ -20,11 +20,22 @@
 <main class="content__main">
     <h2 class="content__main-heading">Список задач</h2>
 
-    <form class="search-form" action="index.php" method="post" autocomplete="off">
-        <input class="search-form__input" type="text" name="" value="" placeholder="Поиск по задачам">
+    <form class="search-form" action="index.php" method="get" autocomplete="off">
+        <input class="search-form__input" type="text" name="search" value="<?=$search ?? "" ?>" placeholder="Поиск по задачам">
 
         <input class="search-form__submit" type="submit" name="" value="Искать">
     </form>
+    <?php if (isset($search) && $search) {
+    if($search_tasks = $search_tasks ?? "") { ?>
+        <h2>Результаты поиска по запросу "<span><?=$search ?></span>"</h2>
+        <?php
+        foreach($search_tasks as $task) { ?>
+            <p><?=htmlspecialchars($task) ?></p>
+        <?php }
+        } else { ?>
+            <h2>Ничего не найдено по вашему запросу</h2>
+    <?php }
+    } ?>
 
     <div class="tasks-controls">
         <nav class="tasks-switch">

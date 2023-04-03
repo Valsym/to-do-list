@@ -37,4 +37,5 @@ CREATE TABLE tasks (
     FOREIGN KEY (project_id) REFERENCES projects(id)
 ) engine=innodb default charset=utf8 collate=utf8_unicode_ci;
 
+CREATE FULLTEXT INDEX task_ft_search ON tasks(task_name)
 
