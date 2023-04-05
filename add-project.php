@@ -1,6 +1,6 @@
 <?php
-require_once ("db.php");
-require_once ("helpers.php");
+require_once("db.php");
+require_once("helpers.php");
 session_start();
 
 if (isset($_SESSION['user'])) {
@@ -40,7 +40,7 @@ if (isset($_SESSION['user'])) {
 
         $rules = [
             'name' => function ($project_name) use ($projects) {
-                return validate_project_exist($project_name, $projects) ? NULL : "Проект уже существует";
+                return validate_project_exist($project_name, $projects) ? null : "Проект уже существует";
             }
         ];
 
@@ -108,14 +108,14 @@ if (isset($_SESSION['user'])) {
     exit;
 }
 
-$layout_content  = include_template("layout-add.php", [
+$layout_content = include_template("layout-add.php", [
     'content' => $page_content,
     //'projects' => $projects,
     'user_name' => $user_name,
     'title' => 'Добавить проект'
 ]);
 
-print($layout_content );
+print($layout_content);
 /*
 print_r($fields);
 echo "\n";

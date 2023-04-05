@@ -1,14 +1,8 @@
 <?php
-require_once ("db.php");
-require_once ("helpers.php");
+require_once("db.php");
+require_once("helpers.php");
 session_start();
 
-if ($con == false) {
-    print("Ошибка подключения: " . mysqli_connect_error());
-}
-else {
-    //print("Соединение установлено\n");
-}
 if (isset($_SESSION['user'])) {
     $user_id = $_SESSION['user']['id'];
     $user_name = $_SESSION['user']['user_name'];
@@ -46,10 +40,9 @@ if (isset($_SESSION['user'])) {
     $page_404 = include_template("404.php", [
         'projects' => $projects,
         'tasks' => $tasks,
-        'user' => $projects[0]['user_name'],
+        'user' => $user_name
     ]);*/
 
-    $title = '';
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $required_fields = ['name', 'project', 'date'];
@@ -97,7 +90,7 @@ if (isset($_SESSION['user'])) {
 
             $file_type = finfo_file($finfo, $tmp_name);
 
-            $ext = NULL;
+            $ext = null;
             if ($file_type === 'image/gif') {
                 $ext = 'gif';
             } elseif ($file_type === 'image/jpeg') {
@@ -113,7 +106,7 @@ if (isset($_SESSION['user'])) {
             if ($ext && $file_size <= 200000) {
                 $file_name = uniqid() . ".$ext";
                 move_uploaded_file($tmp_name, $file_path . $file_name);
-                $fields['path'] = $file_name;//"uploads/" . $file_name;
+                $fields['path'] = $file_name;
             } else {
                 $errors['file_ext'] = "Допустимые форматы файла: gif, ipeg, png";
             }
@@ -167,20 +160,17 @@ if (isset($_SESSION['user'])) {
     header("Location: /index.php");
     exit;
 }
-if (!$title)
-    $title = 'Добавить задачу';
 
-$layout_content  = include_template("layout-add.php", [
+$layout_content = include_template("layout-add.php", [
     'content' => $page_content,
     //'projects' => $projects,
     'user_name' => $user_name,
-    'title' => $title
+    'title' => 'Добавить задачу'
 ]);
 
-print($layout_content );
+print($layout_content);
 /*
 print_r($fields);
 echo "\n";
 if (isset($error)) print_r($error);
 */
-?>

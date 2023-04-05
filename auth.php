@@ -1,6 +1,6 @@
 <?php
-require_once ("db.php");
-require_once ("helpers.php");
+require_once("db.php");
+require_once("helpers.php");
 session_start();
 
 
@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $email = mysqli_real_escape_string($con, $user['email']);
         $sql = "select * from users where email = '$email'"; // !!! '$email' - без таких кавычек не работает
         $res = mysqli_query($con, $sql);
-        $user_real = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : NULL;
+        $user_real = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : null;
 
         if (!$user_real) {
             //echo "$email\n$sql";exit;
@@ -65,9 +65,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 $layout_content = include_template('layout.php', [
-    'content'    => $page_content,
+    'content' => $page_content,
     'categories' => [],
-    'title'      => 'Дела в порядке'
+    'title' => 'Дела в порядке'
 ]);
 
 print($layout_content);

@@ -1,6 +1,6 @@
 <?php
-require_once ("db.php");
-require_once ("helpers.php");
+require_once("db.php");
+require_once("helpers.php");
 session_start();
 
 if (isset($_SESSION['user'])) {
@@ -40,29 +40,29 @@ if (isset($_SESSION['user'])) {
     }
 
     if (isset($today) && $today) {
-        $tasks = array_filter($tasks, function($task) {
+        $tasks = array_filter($tasks, function ($task) {
             $diff = get_time_left($task['deadline']);
-            return ( $diff < 24 && $diff >= 0);
+            return ($diff < 24 && $diff >= 0);
         });
     }
 
 
     if (isset($expired) && $expired) {
-        $tasks = array_filter($tasks, function($task) {
+        $tasks = array_filter($tasks, function ($task) {
             $diff = get_time_left($task['deadline']);
-            return ( $diff < 0 && !$task['task_status']);
+            return ($diff < 0 && !$task['task_status']);
         });
     }
 
     if (isset($tomorrow) && $tomorrow) {
-            $tasks = array_filter($tasks, function($task) {
+        $tasks = array_filter($tasks, function ($task) {
             $diff = get_time_left($task['deadline']);
-            return ( $diff < 48 && $diff >= 24);
+            return ($diff < 48 && $diff >= 24);
         });
     }
 
     if (isset($show_complete_tasks) && !$show_complete_tasks) {
-        $tasks = array_filter($tasks, function($task) {
+        $tasks = array_filter($tasks, function ($task) {
             return !$task['task_status'];
         });
     }
@@ -74,7 +74,7 @@ if (isset($_SESSION['user'])) {
         'user' => $projects[0]['user_name'],
     ]);*/
 
-    $project_active = NULL;
+    $project_active = null;
     if ($project_id) {
         $project_find = false;
         foreach ($projects as $project) {
@@ -101,7 +101,7 @@ if (isset($_SESSION['user'])) {
         }
     }
 
-    $task_active = NULL;
+    $task_active = null;
     if ($task_id) {
         $task_find = false;
         foreach ($tasks as $task) {
@@ -151,8 +151,8 @@ if (isset($_SESSION['user'])) {
                 header("Location: index.php?$project_param");
                 exit();
             } else {
-                $errorDB = "Ошибка БД при добавлении нового юзера: ".mysqli_error($con);
-                echo "\nОшибка БД: ".mysqli_error($con);
+                $errorDB = "Ошибка БД при добавлении нового юзера: " . mysqli_error($con);
+                echo "\nОшибка БД: " . mysqli_error($con);
             }
         }
     }
@@ -188,11 +188,11 @@ if (isset($_SESSION['user'])) {
     $page_content = include_template("guest.php", []);
 }
 
-$layout_content  = include_template("layout.php", [
+$layout_content = include_template("layout.php", [
     'content' => $page_content,
     'title' => 'Дела в порядке'
 ]);
 
-print($layout_content );
+print($layout_content);
 
-?>
+

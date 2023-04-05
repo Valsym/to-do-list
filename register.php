@@ -1,13 +1,12 @@
 <?php
-require_once ("db.php");
-require_once ("helpers.php");
+require_once("db.php");
+require_once("helpers.php");
 
 if ($con == false) {
     print("Ошибка подключения: " . mysqli_connect_error());
     exit();
     //$error = "Ошибка подключения: " . mysqli_connect_error());
-}
-else {
+} else {
     //print("Соединение установлено\n");
 }
 
@@ -30,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         'name' => function ($name) {
             return validate_name($name, 3, 12);
-    }
+        }
     ];
 
     foreach ($user as $key => $value) {
@@ -85,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 header("Location: index.php");
                 exit();
             } else {
-                $errorDB = "Ошибка БД при добавлении нового юзера: ".mysqli_error($con);
+                $errorDB = "Ошибка БД при добавлении нового юзера: " . mysqli_error($con);
             }
         }
     }
@@ -98,7 +97,7 @@ $page_content = include_template("reg.php", [
 ]);
 
 
-$layout_content  = include_template("layout.php", [
+$layout_content = include_template("layout.php", [
     'content' => $page_content,
     'title' => 'Дела в порядке | Регистрация'
 ]);

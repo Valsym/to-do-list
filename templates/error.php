@@ -3,14 +3,14 @@
 
 <head>
     <meta charset="UTF-8">
-    <title><?=$title ?></title>
+    <title><?= $title ?></title>
     <link rel="stylesheet" href="../css/normalize.css">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/flatpickr.min.css">
 </head>
 
 <body>
-<h1 class="visually-hidden"><?=$title ?></h1>
+<h1 class="visually-hidden"><?= $title ?></h1>
 
 <div class="page-wrapper">
     <div class="container container--with-sidebar">
@@ -24,7 +24,7 @@
 
                 <div class="main-header__side-item user-menu">
                     <div class="user-menu__data">
-                        <p><?=$user_name ?></p>
+                        <p><?= $user_name ?></p>
 
                         <a href="#">Выйти</a>
                     </div>
@@ -38,10 +38,12 @@
 
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
-                        <?php foreach($projects as $project): ?>
+                        <?php foreach ($projects as $project): ?>
                             <li class="main-navigation__list-item">
-                                <a class="main-navigation__list-item-link" href="/index.php?project_id=<?=$project['id'] //get_project_id_url($project['id']) ?>"><?=$project['project_name'] ?></a>
-                                <span class="main-navigation__list-item-count"><?=list_item_сount($tasks, $project) ?></span>
+                                <a class="main-navigation__list-item-link"
+                                   href="/index.php?project_id=<?= $project['id'] //get_project_id_url($project['id'])  ?>"><?= $project['project_name'] ?></a>
+                                <span class="main-navigation__list-item-count"><?= list_item_сount($tasks,
+                                        $project) ?></span>
                             </li>
                         <?php endforeach; ?>
                     </ul>
@@ -49,7 +51,7 @@
             </section>
 
             <main class="content__main">
-                <h2 class="content__main-heading"><?=$error ?></h2>
+                <h2 class="content__main-heading"><?= $error ?></h2>
             </main>
         </div>
     </div>

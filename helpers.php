@@ -13,7 +13,8 @@
  *
  * @return bool true при совпадении с форматом 'ГГГГ-ММ-ДД', иначе false
  */
-function is_date_valid(string $date) : bool {
+function is_date_valid(string $date): bool
+{
     $format_to_check = 'Y-m-d';
     $dateTimeObj = date_create_from_format($format_to_check, $date);
 
@@ -29,7 +30,8 @@ function is_date_valid(string $date) : bool {
  *
  * @return mysqli_stmt Подготовленное выражение
  */
-function db_get_prepare_stmt($link, $sql, $data = []) {
+function db_get_prepare_stmt($link, $sql, $data = [])
+{
     $stmt = mysqli_prepare($link, $sql);
 
     if ($stmt === false) {
@@ -46,12 +48,14 @@ function db_get_prepare_stmt($link, $sql, $data = []) {
 
             if (is_int($value)) {
                 $type = 'i';
-            }
-            else if (is_string($value)) {
-                $type = 's';
-            }
-            else if (is_double($value)) {
-                $type = 'd';
+            } else {
+                if (is_string($value)) {
+                    $type = 's';
+                } else {
+                    if (is_double($value)) {
+                        $type = 'd';
+                    }
+                }
             }
 
             if ($type) {
@@ -96,9 +100,9 @@ function db_get_prepare_stmt($link, $sql, $data = []) {
  *
  * @return string Рассчитанная форма множественнго числа
  */
-function get_noun_plural_form (int $number, string $one, string $two, string $many): string
+function get_noun_plural_form(int $number, string $one, string $two, string $many): string
 {
-    $number = (int) $number;
+    $number = (int)$number;
     $mod10 = $number % 10;
     $mod100 = $number % 100;
 
@@ -126,7 +130,8 @@ function get_noun_plural_form (int $number, string $one, string $two, string $ma
  * @param array $data Ассоциативный массив с данными для шаблона
  * @return string Итоговый HTML
  */
-function include_template($name, array $data = []) {
+function include_template($name, array $data = [])
+{
     $name = 'templates/' . $name;
     $result = '';
 
@@ -146,11 +151,12 @@ function include_template($name, array $data = []) {
 /**
  * Рассчитывает оставшееся время до определенной даты
  * @param string $deadline дата окончания выполнения задачи
- * @return true если осталось меньше 24 часов или false  в противном случае
+ * @return int $diff разница в часах c текущим временем
  */
-function get_time_left($deadline) {
+function get_time_left($deadline)
+{
     $endTime = strtotime($deadline);
-    $nowTime = strtotime("today");//time();
+    $nowTime = strtotime("now");//time();
 
     $diff = floor(($endTime - $nowTime) / 3600);
 
@@ -162,12 +168,13 @@ function get_time_left($deadline) {
 /**
  * Проверка даты
  * Содержимое поля «дата завершения» должно быть датой в формате «ГГГГ-ММ-ДД»;
- * Эта дата должна быть больше или равна текущей.
- * @param $date
- * @return string
+ * Эта дата также должна быть больше или равна текущей.
+ * @param $date дата
+ * @return string текст ошибки
  */
 
-function validate_data($date) {
+function validate_data($date)
+{
     if (!is_date_valid($date)) {
         return "Дата должна быть в формате «ГГГГ-ММ-ДД»";
     };
@@ -180,14 +187,16 @@ function validate_data($date) {
 /**
  * Рассчитывает кол-во задач в заданной категории проекта
  * @param array $tasks массив задач
- * @param string $project категория проекта
+ * @param array $project поля проекта
  * @return $sum кол-во задач в заданной категории проекта
  */
-function list_item_сount(array $tasks, $project) {
+function list_items_count(array $tasks, $project)
+{
     $sum = 0;
-    foreach($tasks as $task) {
-        if ($task['project_id'] === $project['id'])
+    foreach ($tasks as $task) {
+        if ($task['project_id'] === $project['id']) {
             $sum++;
+        }
     }
     return $sum;
 }
@@ -196,9 +205,10 @@ function list_item_сount(array $tasks, $project) {
 /**
  * Проверка заполненности
  * @param string $name имя поля для проверки
- * @return строка ошибки
+ * @return string строка ошибки
  */
-function validate_filled($name) {
+function validate_filled($name)
+{
     if (empty($_POST[$name])) {
         return "Это поле должно быть заполнено";
     }
@@ -207,12 +217,13 @@ function validate_filled($name) {
 /**
  * Проверка существования проекта
  * @param string $name имя поля для проверки
- * @return строка ошибки
+ * @return string строка ошибки или NULL
  */
-function validate_project_exist($project_name, $projects) {
+function validate_project_exist($project_name, $projects)
+{
     foreach ($projects as $project) {
         if (in_array(mb_strtolower($project_name), array_map('mb_strtolower', $project))) {
-            return NULL;
+            return null;
         }
     }
     return "Указан несуществующий проект";
@@ -221,9 +232,10 @@ function validate_project_exist($project_name, $projects) {
 /**
  * Проверка длины
  * @param string $name имя поля для проверки
- * @return строка ошибки
+ * @return string строка ошибки
  */
-function is_correct_length($name, $min, $max) {
+function is_correct_length($name, $min, $max)
+{
     //$len = strlen($_POST[$name]);
     $len = strlen($name);
     if ($len < $min or $len > $max) {
@@ -231,33 +243,50 @@ function is_correct_length($name, $min, $max) {
     }
 }
 
-function getPostVal($name) {
+/**
+ * Получение параметра из глобального массива $_POST
+ * @param string $name имя поля для проверки
+ * @return mixed Значение запрашиваемой переменной или NULL
+ */
+function getPostVal($name)
+{
     return filter_input(INPUT_POST, $name);
 }
 
-function getGetVal($name) {
-    return filter_input(INPUT_GET, $name);
-}
-
-function validate_email(/*$email*/) {
-    /*print($email);
-    var_dump(filter_var($email, FILTER_VALIDATE_EMAIL));
-    var_dump(filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL));
-    die;*/
-    if (!filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL))
+/**
+ * Валидация E-mail
+ *
+ * @return string строка ошибки
+ */
+function validate_email()
+{
+    if (!filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL)) {
         return "E-mail введён некорректно";
+    }
 }
 
-function validate_name($name, $min, $max) {
-    //$len = strlen($_POST[$name]);
+/**
+ * Проверка длины для киррилических имен
+ * @param string $name имя поля для проверки
+ * @return string строка ошибки
+ */
+function validate_name($name, $min, $max)
+{
     $len = mb_strlen($name);
-    //echo "$name, $len";die;
     if ($len < $min or $len > $max) {
         return "Имя должно быть от $min до $max символов";
     }
 }
 
-function check_user($con, $row, $value) {
+/**
+ * Проверка существования email или имени юзера в БД
+ * @param object $con объект, который представляет соединение с сервером MySQL
+ * @param string $row название поля для проверки
+ * @param string $value значение поля для проверки
+ * @return int количество строк в наборе результатов
+ */
+function check_user($con, $row, $value)
+{
     $sql = "select $row from users where $row = ?";
     $stmt = mysqli_prepare($con, $sql);
     if ($stmt === false) {

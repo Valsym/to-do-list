@@ -24,9 +24,9 @@
                 <?php $classname = isset($errors['email']) ? "form__input--error" : ""; ?>
                 <label class="form__label" for="email">E-mail <sup>*</sup></label>
                 <?php $value = isset($user['email']) ? $user['email'] : ""; ?>
-                <input class="form__input <?=$classname ?>" type="text" name="email" id="email"
-                       value="<?=$value ?>" placeholder="Введите e-mail">
-                <span class="form__message"><?=$errors['email'] ?? "" ?></span>
+                <input class="form__input <?= $classname ?>" type="text" name="email" id="email"
+                       value="<?= $value ?>" placeholder="Введите e-mail">
+                <span class="form__message"><?= $errors['email'] ?? "" ?></span>
                 <!--<p class="form__message">E-mail введён некорректно</p>-->
             </div>
 
@@ -34,17 +34,17 @@
                 <?php $classname = isset($errors['password']) ? "form__input--error" : ""; ?>
                 <label class="form__label" for="password">Пароль <sup>*</sup></label>
                 <?php $value = isset($user['password']) ? $user['password'] : ""; ?>
-                <input class="form__input <?=$classname ?>" type="password" name="password" id="password"
-                       value="<?=$value ?>" placeholder="Введите пароль">
-                <span class="form__message"><?=$errors['password'] ?? "" ?></span>
+                <input class="form__input <?= $classname ?>" type="password" name="password" id="password"
+                       value="<?= $value ?>" placeholder="Введите пароль">
+                <span class="form__message"><?= $errors['password'] ?? "" ?></span>
             </div>
 
             <div class="form__row form__row--controls">
-                <?php if(isset($errors) && count($errors)): ?>
+                <?php if (isset($errors) && count($errors)): ?>
                     <p class="error-message">Пожалуйста, исправьте ошибки в форме</p>
                 <?php endif; ?>
                 <?php $errorDB = $errorDB ?? ""; ?>
-                <p class="error-message"><?=$errorDB ?></p>
+                <p class="error-message"><?= $errorDB ?></p>
                 <input class="button" type="submit" name="" value="Войти">
             </div>
         </form>

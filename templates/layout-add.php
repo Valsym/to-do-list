@@ -3,14 +3,14 @@
 
 <head>
     <meta charset="UTF-8">
-    <title><?=$title ?></title>
+    <title><?= $title ?></title>
     <link rel="stylesheet" href="../css/normalize.css">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/flatpickr.min.css">
 </head>
 
 <body>
-<h1 class="visually-hidden"><?=$title ?></h1>
+<h1 class="visually-hidden"><?= $title ?></h1>
 
 <div class="page-wrapper">
     <div class="container container--with-sidebar">
@@ -21,11 +21,11 @@
 
             <div class="main-header__side">
                 <?php $hidden = $title === 'Добавить проект' ? "visually-hidden" : ""; ?>
-                <a class="main-header__side-item button button--plus <?=$hidden  ?>" href="/add.php">Добавить задачу</a>
+                <a class="main-header__side-item button button--plus <?= $hidden ?>" href="/add.php">Добавить задачу</a>
 
                 <div class="main-header__side-item user-menu">
                     <div class="user-menu__data">
-                        <p><?=$user_name ?></p>
+                        <p><?= $user_name ?></p>
 
                         <a href="#">Выйти</a>
                     </div>
@@ -34,7 +34,7 @@
         </header>
 
         <div class="content">
-            <?=$content ?>
+            <?= $content ?>
         </div>
     </div>
 </div>
@@ -47,7 +47,7 @@
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
 
-        <a class="main-footer__button button button--plus <?=$hidden  ?>" href="/add.php">Добавить задачу</a>
+        <a class="main-footer__button button button--plus <?= $hidden ?>" href="/add.php">Добавить задачу</a>
 
         <div class="main-footer__social social">
             <span class="visually-hidden">Мы в соцсетях:</span>
