@@ -191,19 +191,6 @@ function list_item_сount(array $tasks, $project) {
     }
     return $sum;
 }
-/*
-function get_project_id_url($project_id) {
-    $params = $_GET;
-    $params['project_id'] = $params['project_id'] ?? $project_id;
-
-    $scriptname = pathinfo(__FILE__, PATHINFO_BASENAME);
-    $query = http_build_query($params);
-    $url = "/" . $scriptname . "?" . $query;
-    $url = "/index.php?" . $query;
-    $url = "/index.php?project_id=" . $project_id;
-
-    return $url;
-}*/
 
 
 /**
@@ -224,7 +211,7 @@ function validate_filled($name) {
  */
 function validate_project_exist($project_name, $projects) {
     foreach ($projects as $project) {
-        if (in_array($project_name, $project)) {
+        if (in_array(mb_strtolower($project_name), array_map('mb_strtolower', $project))) {
             return NULL;
         }
     }
@@ -246,6 +233,10 @@ function is_correct_length($name, $min, $max) {
 
 function getPostVal($name) {
     return filter_input(INPUT_POST, $name);
+}
+
+function getGetVal($name) {
+    return filter_input(INPUT_GET, $name);
 }
 
 function validate_email(/*$email*/) {
@@ -270,7 +261,7 @@ function check_user($con, $row, $value) {
     $sql = "select $row from users where $row = ?";
     $stmt = mysqli_prepare($con, $sql);
     if ($stmt === false) {
-        $errorMsg = 'check_duplication(): Не удалось инициализировать подготовленное выражение: ' . mysqli_error($con);
+        $errorMsg = 'check_user(): Не удалось инициализировать подготовленное выражение: ' . mysqli_error($con);
         die($errorMsg);
     }
 
@@ -279,22 +270,3 @@ function check_user($con, $row, $value) {
     $res = mysqli_stmt_get_result($stmt);
     return mysqli_num_rows($res);
 }
-/*
-function check_pass($con, $pass) {
-    $sql = "select password from users where $row = ?";
-    $stmt = mysqli_prepare($con, $sql);
-    if ($stmt === false) {
-        $errorMsg = 'check_pass(): Не удалось инициализировать подготовленное выражение: ' . mysqli_error($con);
-        die($errorMsg);
-    }
-
-    mysqli_stmt_bind_param($stmt, 's', $value);
-    mysqli_stmt_execute($stmt);
-    $res = mysqli_stmt_get_result($stmt);
-    mysqli_fetch_array($res, MYSQLI_ASSOC)
-    if (password_verify('bad-password', $passwordHash)) {
-
-        return mysqli_num_rows($res);
-}
-
-*/

@@ -27,9 +27,8 @@
                 <?php endif ?>
                 <div class="main-header__side-item user-menu">
                     <div class="user-menu__data">
-                        <?php if(($user_name)): ?>
+                        <?php if(isset($user_name)): ?>
                         <p><?=$user_name ?? ""?></p>
-
                         <a href="/logout.php">Выйти</a>
                         <?php endif ?>
                     </div>
@@ -103,6 +102,9 @@
 </footer>
 
 <script src="flatpickr.js"></script>
-<script src="script.js"></script>
+<script src="script.js">
+
+
+</script>
 </body>
 </html>

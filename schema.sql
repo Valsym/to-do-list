@@ -12,7 +12,7 @@ CREATE TABLE users (
                        user_dt_add TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                        email VARCHAR(128) NOT NULL UNIQUE,
                        user_name VARCHAR(128) NOT NULL,
-                       user_pass CHAR(12) NOT NULL
+                       user_pass CHAR(255) NOT NULL
 ) engine=innodb default charset=utf8 collate=utf8_unicode_ci;
 
 DROP TABLE IF EXISTS projects;

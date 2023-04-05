@@ -14,7 +14,7 @@
     </nav>
 
     <a class="button button--transparent button--plus content__side-button"
-       href="pages/form-project.html" target="project_add">Добавить проект</a>
+       href="/add-project.php" target="project_add">Добавить проект</a>
 </section>
 
 <main class="content__main">
@@ -39,16 +39,22 @@
 
     <div class="tasks-controls">
         <nav class="tasks-switch">
-            <a href="/" class="tasks-switch__item tasks-switch__item--active">Все задачи</a>
-            <a href="/" class="tasks-switch__item">Повестка дня</a>
-            <a href="/" class="tasks-switch__item">Завтра</a>
-            <a href="/" class="tasks-switch__item">Просроченные</a>
+            <a href="/" class="tasks-switch__item <?php
+            if(empty($_GET) || (!isset($_GET['today']) && !isset($_GET['tomorrow']) && !isset($_GET['expired']))):
+                ?> tasks-switch__item--active<?php endif; ?>">Все задачи</a>
+            <a href="/index.php?today=1" class="tasks-switch__item<?php
+            if(isset($_GET['today']) && $_GET['today']): ?> tasks-switch__item--active<?php endif; ?>">Повестка дня</a>
+            <a href="/?tomorrow=1" class="tasks-switch__item<?php
+            if(isset($_GET['tomorrow']) && $_GET['tomorrow']): ?> tasks-switch__item--active<?php endif; ?>">Завтра</a>
+            <a href="/?expired=1" class="tasks-switch__item<?php
+            if(isset($_GET['expired']) && $_GET['expired']): ?> tasks-switch__item--active<?php endif; ?>">Просроченные</a>
         </nav>
 
         <label class="checkbox">
             <!--добавить сюда атрибут "checked", если переменная $show_complete_tasks равна единице-->
-            <input class="checkbox__input visually-hidden show_completed" type=
-            "checkbox<?php if($show_complete_tasks === 1): ?> checked<?php endif ?>">
+            <input class="checkbox__input visually-hidden show_completed" type="checkbox"<?php
+            if(($show_complete_tasks == 1 || $show_complete_tasks == '')
+                && !isset($_GET['expired'])): ?> checked<?php endif; ?>>
             <span class="checkbox__text">Показывать выполненные</span>
         </label>
     </div>
@@ -63,7 +69,7 @@
                     <?php if(get_time_left($task['deadline']) < 24):?> task--important<?php endif ?>">
                     <td class="task__select">
                         <label class="checkbox task__checkbox">
-                            <input class="checkbox__input visually-hidden task__checkbox" type="checkbox">
+                            <input class="checkbox__input visually-hidden task__checkbox" value="<?=$task['id'] ?>" type="checkbox">
                             <span class="checkbox__text"><?=htmlspecialchars($task['task_name']) ?></span>
                         </label>
                     </td>

@@ -7,6 +7,7 @@ if ($checkbox.length) {
     var is_checked = +event.target.checked;
 
     var searchParams = new URLSearchParams(window.location.search);
+
     searchParams.set('show_completed', is_checked);
 
     window.location = '/index.php?' + searchParams.toString();
@@ -21,10 +22,15 @@ if ($taskCheckboxes.length) {
     if (event.target.classList.contains('task__checkbox')) {
       var el = event.target;
 
+      var searchParams = new URLSearchParams(window.location.search); //!!!
+
       var is_checked = +el.checked;
       var task_id = el.getAttribute('value');
 
-      var url = '/index.php?task_id=' + task_id + '&check=' + is_checked;
+      var project_id = searchParams.get("project_id");
+      project_id = project_id   ? ('project_id=' + project_id) : '';
+
+      var url = '/index.php?'  + project_id + '&task_id=' + task_id + '&check=' + is_checked;
       window.location = url;
     }
   });

@@ -16,30 +16,15 @@ if (isset($_SESSION['user'])) {
     $sql = 'select p.id, p.project_name, u.user_name as user_name from projects p ' .
         'join users u on u.id = user_id ' .
         'where user_id = ' . $user_id;
-//$sql = sprintf("select project_name from projects where user_id = %s", $user_id);
-//print("\n".$sql."\n");
-
 
     $result = mysqli_query($con, $sql);
     if ($result) {
         $projects = mysqli_fetch_all($result, MYSQLI_ASSOC);
-        /*foreach($projects as $project) {
-            print_r($project['project_name']);
-        }*/
-        //print_r($projects);
     } else {
         $error = mysqli_error($con);
-        //print("Ошибка1: $error");
     }
-//print($projects[0]['user_name']);
-//exit;
 
-//$params = $_GET;
-//$project_id = $params['project_id'] ?? NULL;
     $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_NUMBER_INT);
-
-//print_r($project_id);
-//exit;
 
     $sql = 'select task_status, task_name, deadline, p.project_name as category, project_id from tasks t ' .
         'join projects p on p.id = project_id ' .
@@ -47,24 +32,14 @@ if (isset($_SESSION['user'])) {
     $result = mysqli_query($con, $sql);
     if ($result) {
         $tasks = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
-        //print_r($all_tasks);
     } else {
         $error = mysqli_error($con);
         print("Ошибка2: $error");
     }
-    /*
-    $fields = filter_input_array(INPUT_POST, [
-        'name' => FILTER_DEFAULT,
-        'project' => FILTER_DEFAULT,
-        'date' => FILTER_DEFAULT,
-        'file' => FILTER_DEFAULT,
-    ], true);
-    */
+
     $page_content = include_template("main-add.php", [
         'projects' => $projects,
         'tasks' => $tasks,
-        //'field' => $fields,
         'errors' => []
     ]);
     /*
@@ -75,13 +50,7 @@ if (isset($_SESSION['user'])) {
     ]);*/
 
     $title = '';
-    /*
-    $page_content = include_template("main-add.php", [
-        'projects' => $projects,
-        'tasks' => $tasks,
-        //'project_active' => $project_active,
-    ]);
-    */
+
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $required_fields = ['name', 'project', 'date'];
         $errors = [];
@@ -102,27 +71,22 @@ if (isset($_SESSION['user'])) {
             'date' => FILTER_DEFAULT,
         ], true);
 
-        foreach (/*$_POST*/
-            $fields as $key => $value) {
-            //echo "\n$key => $value\n";
+        foreach ($fields as $key => $value) {
             if (isset($rules[$key])) {
                 $rule = $rules[$key];
                 $errors[$key] = $rule($value);
-                //echo "\nerrors[$key] => $errors[$key]\n";
             }
         }
 
         foreach ($required_fields as $field) {
             if (empty($_POST[$field])) {
                 $errors[$field] = 'Поле не заполнено';
-                //echo "\nerrors[$field] => $errors[$field]\n";
             }
         }
 
         $errors = array_filter($errors);
 
         if (!empty($_FILES['file']['name'])) {
-            //print_r($_FILES['file']);
             $file_name = $_FILES['file']['name'];
             $file_path = __DIR__ . '/uploads/';
             $file_url = '/uploads/' . $file_name;

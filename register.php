@@ -20,8 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $errors = [];
 
     $rules = [
-        'email' => function (/*$email*/) {
-            return validate_email(/*$email*/);
+        'email' => function () {
+            return validate_email();
         },
 
         'password' => function ($password) {
@@ -32,26 +32,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             return validate_name($name, 3, 12);
     }
     ];
-/*
-    $user = filter_input_array(INPUT_POST, [
-        'email' => FILTER_DEFAULT,
-        'password' => FILTER_DEFAULT,
-        'name' => FILTER_DEFAULT,
-    ], true);
-    $user = $_POST;*/
-    foreach (/*$_POST*/ $user as $key => $value) {
-        //echo "\n$key => $value\n";
+
+    foreach ($user as $key => $value) {
         if (isset($rules[$key])) {
             $rule = $rules[$key];
             $errors[$key] = $rule($value);
-            //echo "\nerrors[$key] => $errors[$key]\n";
         }
     }
 
     foreach ($required_fields as $field) {
         if (empty($_POST[$field])) {
             $errors[$field] = 'Поле не заполнено';
-            //echo "\nerrors[$field] => $errors[$field]\n";
         }
     }
 
@@ -88,57 +79,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $user['password'] = password_hash($user['password'], PASSWORD_DEFAULT);
             $stmt = db_get_prepare_stmt($con, $sql, $user);
             $res = mysqli_stmt_execute($stmt);
-            //echo "$sql\n";
-
 
             if ($res) {
                 $user_id = mysqli_insert_id($con);
-                //echo "\nДобавлен новый юзер: $user_id\n";print_r($user);exit;
-                header("Location: index.php");//?id=" . $user_id);
+                header("Location: index.php");
                 exit();
             } else {
-                //$content = include_template('error.php', ['error' => mysqli_error($con)]);
                 $errorDB = "Ошибка БД при добавлении нового юзера: ".mysqli_error($con);
-                //echo "\nОшибка БД при добавлении нового юзера: ".mysqli_error($con);print_r($user);exit;
             }
         }
     }
 
 }
 
-/*
-$error = mysqli_error($con);
-$title = "Ошибка БД: $error";
-$page_content = include_template("error.php", [
-    'error' => $error,
-    'projects' => $projects,
-    'tasks' => $tasks,
-    'user_name' => $projects[0]['user_name'],
-    'title' => $title
-]);
-*/
-
-//if (!$title)
-
-/*
-$layout_content  = include_template("reg.php", [
-
-    'title' => $title,
-    'errors' => $errors,
-    'errorDB' => $errorDB ?? ''
-]);
-
-print($layout_content );
-*/
 $page_content = include_template("reg.php", [
     'errors' => $errors,
     'errorDB' => $errorDB ?? ''
 ]);
-//}
+
 
 $layout_content  = include_template("layout.php", [
     'content' => $page_content,
     'title' => 'Дела в порядке | Регистрация'
 ]);
-
-print($layout_content );
