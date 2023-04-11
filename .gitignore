@@ -1,2 +1,6 @@
 # Users load ignored files 
 /uploads/*
+
+/vendor/
+
+/config/*
