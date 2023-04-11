@@ -1,4 +1,5 @@
 <?php
+
 use Symfony\Component\Mailer\Transport;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mime\Email;
@@ -11,7 +12,8 @@ require_once("config/config.php");
 // https://github.com/symfony/mailer
 // Конфигурация траспорта
 $dsn = "smtp://$log:$pass@smtp.yandex.ru:465?encryption=SSL";
-/* Как в учебнике - Не работает
+
+/* Так не работает:
 // Конфигурация траспорта
 $transport = Transport::fromDsn($dsn);
 $mailer = new Mailer($transport);
@@ -42,7 +44,7 @@ $email = (new Email())
 $mailer->send($email);
 */
 
-/* Отправка через GMAIL.COM
+/* Отправка через GMAIL.COM - работает
 $loggmail = "login";
 $passgmail = "supersecretpass";
 $mailfrom = '$loggmail@gmail.com";
@@ -84,14 +86,14 @@ if ($res1) {
             $tasks = mysqli_fetch_all($res2, MYSQLI_ASSOC);
             foreach ($tasks as $task) {
                 $deadline = $task['deadline'];
-                $diff = get_time_left($deadline. "+1 day");
+                $diff = get_time_left($deadline . "+1 day");
                 //echo $task['task_name']." diff=$diff \n";
-                if ($diff >=0 && $diff <= 24) {
+                if ($diff >= 0 && $diff <= 24) {
                     $notes[] = [//$user_id => [
-                            'user_name' => $user['user_name'],
-                            'task_name' => $task['task_name'],
-                            'deadline' => $deadline,
-                            'email' => $user['email']
+                        'user_name' => $user['user_name'],
+                        'task_name' => $task['task_name'],
+                        'deadline' => $deadline,
+                        'email' => $user['email']
                         //]
                     ];
                 }
@@ -110,13 +112,13 @@ if ($res1) {
 $mess = [];
 foreach ($notes as $k => $v) {
     $date = date_format(date_create($v['deadline']), 'd-m-Y');
-    if ($k > 0 && $v['user_name'] === $notes[$k-1]['user_name']) {
+    if ($k > 0 && $v['user_name'] === $notes[$k - 1]['user_name']) {
         $mess[$v['user_name']] .= "А также задача «" . $v['task_name'] . "» на $date.\n";
-        $email[$v['user_name']] =  $notes[$k-1]['email'];
+        $email[$v['user_name']] = $notes[$k - 1]['email'];
     } else {
         $mess[$v['user_name']] = "Уважаемый, " . $v['user_name'] . ".\nУ вас запланирована задача «" .
             $v['task_name'] . "» на $date.\n";
-        $emailto[$v['user_name']] =  $notes[$k]['email'];
+        $emailto[$v['user_name']] = $notes[$k]['email'];
     }
 }
 
@@ -136,15 +138,6 @@ foreach ($mess as $k => $mes) {
         ->subject("Уведомление от сервиса «Дела в порядке»")
         ->text("$mes");
     // Отправка сообщения
-    $result = 1;//$mailer->send($email);
-    if ($result) {
-        print("\nРассылка пользователю $k на $mailto успешно отправлена.");
-    }
-    else {
-        print("\nНе удалось отправить рассылку пользователю $k на $mailto.");
-    }
+    $mailer->send($email);
 }
-
-
-
 
