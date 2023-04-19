@@ -89,11 +89,11 @@
         </div>
 
         <div class="main-footer__developed-by">
-            <span class="visually-hidden">Разработано:</span>
+            <span class="visually-hidden">Разработано:
 
-            <a href="https://htmlacademy.ru/intensive/php">
-                <img src="../img/htmlacademy.svg" alt="HTML Academy" width="118" height="40">
-            </a>
+            <a href="https://github.com/Valsym/to-do-list">
+                Valsym
+            </a></span>
         </div>
     </div>
 </footer>

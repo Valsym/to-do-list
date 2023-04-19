@@ -101,3 +101,5 @@ $layout_content = include_template("layout.php", [
     'content' => $page_content,
     'title' => 'Дела в порядке | Регистрация'
 ]);
+
+print($layout_content);

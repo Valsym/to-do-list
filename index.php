@@ -34,6 +34,7 @@ if (isset($_SESSION['user'])) {
     $result = mysqli_query($con, $sql);
     if ($result) {
         $tasks = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        $tasks_all = $tasks;
     } else {
         $error = mysqli_error($con);
         print("Ошибка2: $error");
@@ -178,6 +179,7 @@ if (isset($_SESSION['user'])) {
     $page_content = include_template("main.php", [
         'projects' => $projects,
         'tasks' => $tasks,
+        'tasks_all' => $tasks_all,
         'search' => $search ?? "",
         'search_tasks' => $search_tasks ?? [],
         'project_active' => $project_active,

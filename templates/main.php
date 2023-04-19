@@ -8,7 +8,7 @@
                     ?>main-navigation__list-item--active<?php endif ?>">
                     <a class="main-navigation__list-item-link"
                        href="/index.php?project_id=<?= $project['id'] ?>"><?= $project['project_name'] ?></a>
-                    <span class="main-navigation__list-item-count"><?= list_items_count($tasks, $project) ?></span>
+                    <span class="main-navigation__list-item-count"><?= list_items_count($tasks_all, $project) ?></span>
                 </li>
             <?php endforeach; ?>
         </ul>
@@ -67,8 +67,9 @@
                 ($project_active && $project_active != $task['project_id'])) {
                 continue;
             } else { ?>
+                <?php $time_left = get_time_left($task['deadline']); ?>
                 <tr class="tasks__item task<?php if ($task['task_status'] > 0) { ?> task--completed<?php }; ?>
-                    <?php if (get_time_left($task['deadline']) < 24): ?> task--important<?php endif ?>">
+                    <?php if ($time_left <= 24 && !$task['task_status']): ?> task--important<?php endif ?>">
                     <td class="task__select">
                         <label class="checkbox task__checkbox">
                             <input class="checkbox__input visually-hidden task__checkbox" value="<?= $task['id'] ?>"
